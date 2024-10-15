@@ -1,0 +1,40 @@
+version: '3'
+services:
+
+  bot-app:
+    container_name: bot-app
+    build: .
+    env_file:
+      - .env
+    networks:
+      - botnet
+    depends_on:
+      - bot-db
+
+  bot-db:
+    container_name: bot-db
+    image: postgres:15
+    ports:
+      - 5432:5432
+    volumes:
+      - ./temp/psqlDB:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - botnet
+
+  adminer:
+    container_name: adminer
+    image: adminer:latest
+    ports:
+      - 8082:8080
+    env_file:
+      - .env
+    networks:
+      - botnet
+    depends_on:
+      - bot-db
+
+networks:
+  botnet:
+    driver: bridge
