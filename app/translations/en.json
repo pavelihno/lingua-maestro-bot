@@ -1,0 +1,11 @@
+{
+    "user": {
+        "start": "Welcome to the bot!",
+        "request_access": "You do not have access to this bot. Would you like to request access?",
+        "request_waiting": "Your access request is waiting for approval"
+    },
+    "buttons": {
+        "request_access": "Request Access",
+        "cancel": "Cancel"
+    }
+}
