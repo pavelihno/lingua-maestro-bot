@@ -4,6 +4,9 @@ services:
   bot-app:
     container_name: bot-app
     build: .
+    volumes:
+      - ./app:/app
+    command: python -m watchfiles "python -u app.py" /app
     env_file:
       - .env
     networks:
