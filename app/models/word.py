@@ -10,7 +10,5 @@ class Word(BaseModel):
     word = Column(String(50))
     translate = Column(String(50))
     word_block_id = Column(Integer, ForeignKey('word_blocks.id'))
-    language_id = Column(Integer, ForeignKey('languages.id'))
 
     word_block = relationship('WordBlock', back_populates='words')
-    language = relationship('Language', back_populates='words')

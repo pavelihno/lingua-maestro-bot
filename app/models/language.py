@@ -8,7 +8,10 @@ class Language(BaseModel):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(32))
-    code = Column(String(10))
+    code = Column(String(10), unique=True)
 
     users = relationship('User', back_populates='language')
-    words = relationship('Word', back_populates='word_block')
+
+    @classmethod
+    def get_by_code(cls, language_code, session):
+        return session.query(cls).filter(cls.code == language_code).first()

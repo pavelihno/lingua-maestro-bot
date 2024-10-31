@@ -12,38 +12,49 @@ class BaseModel(Base):
             for key, value in data.items():
                 setattr(model, key, value)
             session.add(model)
-            session.commit()
             return model
-        except Exception:
+        except Exception as e:
+            print(f"Error creating {cls.__name__}: {e}")
             return None
 
     @classmethod
     def get_all(cls, session):
-        return session.query(cls).all()
-
-    @classmethod
-    def get_by_id(cls, session, _id):
-        return session.query(cls).get(_id)
-
-    @classmethod
-    def update(cls, session, _id, **data):
         try:
-            model = cls.get_by_id(session, _id)
+            return session.query(cls).all()
+        except Exception as e:
+            print(f"Error retrieving all {cls.__name__} instances: {e}")
+            return []
+
+    @classmethod
+    def get_by_id(cls, _id, session):
+        try:
+            return session.query(cls).get(_id)
+        except Exception as e:
+            print(f"Error retrieving {cls.__name__} by ID: {e}")
+            return None
+
+    @classmethod
+    def update(cls, _id, session, **data):
+        try:
+            model = cls.get_by_id(_id, session=session)
             if model:
                 for key, value in data.items():
-                    if value:
+                    if value is not None:
                         setattr(model, key, value)
-                session.commit()
                 return model
             return None
-        except Exception:
+        except Exception as e:
+            print(f"Error updating {cls.__name__}: {e}")
             return None
 
     @classmethod
-    def delete(cls, session, _id):
-        model = cls.get_by_id(session, _id)
-        if model:
-            session.delete(model)
-            session.commit()
-            return model
-        return None
+    def delete(cls, _id, session):
+        try:
+            model = cls.get_by_id(_id, session=session)
+            if model:
+                session.delete(model)
+                return model
+            return None
+        except Exception as e:
+            print(f"Error deleting {cls.__name__}: {e}")
+            return None
