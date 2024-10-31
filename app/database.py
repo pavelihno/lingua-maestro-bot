@@ -1,5 +1,6 @@
 import os
 
+from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -10,9 +11,6 @@ engine = create_engine(DB_URL)
 Session = sessionmaker(bind=engine)
 
 def init_db():
-    """
-    Initialize the database by creating all tables.
-    """
     from models.language import Language
     from models.user import User
     from models.word_block import WordBlock
@@ -31,8 +29,14 @@ def init_db():
     for model in import_order:
         model.metadata.create_all(engine)
 
+@contextmanager
 def get_db_session():
-    """
-    Get a new database session.
-    """
-    return Session()
+    session = Session()
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()

@@ -1,11 +1,30 @@
 {
+    "access": {
+        "request_access": "You do not have access to this bot. Would you like to request access?",
+        "request_waiting": "Your access request is waiting for approval",
+        "request_submitted": "Your access request has been submitted and is awaiting approval",
+        "request_canceled": "Your access request has been canceled",
+        "request_approved": "Access request to «%{username}» approved",
+        "request_rejected": "Access request to «%{username}» rejected",
+        "active_request": "Active access requests:",
+        "request_not_found": "Access request not found",
+        "no_active_request": "No active access requests",
+        "no_permission": "You do not have permission to perform this action"
+    },
     "user": {
         "start": "Welcome to the bot!",
-        "request_access": "You do not have access to this bot. Would you like to request access?",
-        "request_waiting": "Your access request is waiting for approval"
+        "select_language": "Select your language:",
+        "language_changed": "Your language has been changed to «%{language_name}»",
+        "language_not_found": "Selected language is not supported"
     },
     "buttons": {
-        "request_access": "Request Access",
+        "request_access": "Request access",
+        "cancel_request_access": "Cancel request access",
+        "approve_access": "Approve «%{username}»",
+        "reject_access": "Reject «%{username}»",
         "cancel": "Cancel"
+    },
+    "error": {
+        "unexpected": "Unexpected error"
     }
 }
