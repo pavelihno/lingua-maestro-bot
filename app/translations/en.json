@@ -4,12 +4,16 @@
         "request_waiting": "Your access request is waiting for approval",
         "request_submitted": "Your access request has been submitted and is awaiting approval",
         "request_canceled": "Your access request has been canceled",
-        "request_approved": "Access request to «%{username}» approved",
-        "request_rejected": "Access request to «%{username}» rejected",
-        "active_request": "Active access requests:",
+        "request_approved": "Your access request has been approved",
+        "request_rejected": "Your access request has been rejected",
         "request_not_found": "Access request not found",
-        "no_active_request": "No active access requests",
-        "no_permission": "You do not have permission to perform this action"
+        "admin": {
+            "active_request": "Active access requests:",
+            "no_active_request": "No active access requests",
+            "request_approved": "Access request to «%{username}» approved",
+            "request_rejected": "Access request to «%{username}» rejected",
+            "no_permission": "You do not have permission to perform this action"
+        }
     },
     "user": {
         "start": "Welcome to the bot!",

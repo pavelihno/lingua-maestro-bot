@@ -59,7 +59,7 @@ def admin_required(func):
             language_code = user.get_language_code()
 
             if not user or not user.is_superuser:
-                reply_text = get_translation(language_code, 'access.no_permission')
+                reply_text = get_translation(language_code, 'access.admin.no_permission')
 
                 if update.message:
                     await update.message.reply_text(reply_text)
