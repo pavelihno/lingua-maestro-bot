@@ -69,7 +69,7 @@ async def approve_access(update: Update, context: CallbackContext) -> None:
         active_requests = AccessRequest.get_active_requests(session)
 
         if not active_requests:
-            await update.message.reply_text(get_translation(language_code, 'access.no_active_request'))
+            await update.message.reply_text(get_translation(language_code, 'access.admin.no_active_request'))
             return
         
         buttons = []
@@ -80,7 +80,7 @@ async def approve_access(update: Update, context: CallbackContext) -> None:
             ])
 
         await update.message.reply_text(
-            get_translation(language_code, 'access.active_request'),
+            get_translation(language_code, 'access.admin.active_request'),
             reply_markup=InlineKeyboardMarkup(buttons)
         )
 
@@ -88,14 +88,14 @@ async def approve_access(update: Update, context: CallbackContext) -> None:
 async def handle_access_request(update: Update, context: CallbackContext, is_approved: bool) -> None:
     query = update.callback_query
     telegram_user = update.effective_user
-    request_user_id = int(query.data.split(APPROVE_ACCESS_CODE if is_approved else REJECT_ACCESS_CODE)[1])
+    request_id = int(query.data.split(APPROVE_ACCESS_CODE if is_approved else REJECT_ACCESS_CODE)[1])
 
     with get_db_session() as session:
         admin_user = User.get_by_telegram_id(telegram_user.id, session)
         language_code = admin_user.get_language_code()
 
-        request_user = User.get_by_id(request_user_id ,session)
-        access_request = AccessRequest.get_active_user_request(request_user.id, session)
+        access_request = AccessRequest.get_by_id(request_id, session)
+        request_user = access_request.user
 
         if access_request:
             AccessRequest.update(
@@ -106,9 +106,17 @@ async def handle_access_request(update: Update, context: CallbackContext, is_app
             )
 
             if is_approved:
-                await query.edit_message_text(text=get_translation(language_code, 'access.request_approved', username=request_user.username))
+                User.update(
+                    request_user.id,
+                    session=session,
+                    is_active=True
+                )
+
+                await context.bot.send_message(chat_id=request_user.telegram_id, text=get_translation(request_user.get_language_code(), 'access.request_approved'))
+                await query.edit_message_text(text=get_translation(language_code, 'access.admin.request_approved', username=request_user.username))
             else:
-                await query.edit_message_text(text=get_translation(language_code, 'access.request_rejected', username=request_user.username))
+                await context.bot.send_message(chat_id=request_user.telegram_id, text=get_translation(request_user.get_language_code(), 'access.request_rejected'))
+                await query.edit_message_text(text=get_translation(language_code, 'access.admin.request_rejected', username=request_user.username))
         else:
             await query.edit_message_text(text=get_translation(language_code, 'access.request_not_found'))
 
