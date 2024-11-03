@@ -12,3 +12,11 @@ class WordBlock(BaseModel):
 
     user = relationship('User', back_populates='word_blocks')
     words = relationship('Word', back_populates='word_block')
+
+    @classmethod
+    def exists(cls, session, title, user_id):
+        return session.query(cls).filter(cls.title == title, cls.user_id == user_id).first() is not None
+
+    @classmethod
+    def get_all_by_user_id(cls, session, user_id):
+        return session.query(cls).filter(cls.user_id == user_id).all()

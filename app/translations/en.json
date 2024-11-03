@@ -21,6 +21,31 @@
         "language_changed": "Your language has been changed to «%{language_name}»",
         "language_not_found": "Selected language is not supported"
     },
+    "word_block": {
+        "add": {
+            "rules": "To add a block of words, please use the following format:\n_Title_\n_word1\\-translate1_\n_word2\\-translate2_\nFor example:\n_Fruits_\n_apple\\-яблоко_\n_orange\\-апельсин_\n_banana\\-банан_",
+            "success": "The word block «%{title}» has been added successfully",
+            "error": "There were errors in the following lines:\n%{errors}\nPlease check the format and try again",
+            "exists": "The word block «%{title}» already exists\nPlease change the title and try again"
+        },
+        "learn": {
+            "no_blocks": "You have no word blocks available\nUse the /add_block command to create a new word block",
+            "select_block": "Select a word block to learn:\n",
+            "list_words": "«%{title}»:\n\n%{words}",
+            "no_words": "The block «%{title}» has no words"
+        },
+        "review": {
+            "no_blocks": "You have no word blocks available\nUse the /add_block command to create a new word block for review",
+            "select_block": "Select a word block to review:\n",
+            "list_words": "«%{title}»:",
+            "no_words": "The block «%{title}» has no words"
+        },
+        "delete": {
+            "no_blocks": "You have no word blocks available",
+            "select_block": "Select a word block to delete:\n",
+            "success": "The word block «%{title}» has been deleted successfully"
+        }
+    },
     "buttons": {
         "request_access": "Request access",
         "cancel_request_access": "Cancel request access",

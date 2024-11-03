@@ -1,16 +1,17 @@
 from telegram import Update
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import CallbackContext
+from telegram.ext import CallbackContext, ConversationHandler
 
 from database import get_db_session
 from translations import get_translation
 from middlewares.access_middleware import admin_required
-from constants import APPROVE_ACCESS_CODE, REJECT_ACCESS_CODE
+from constants import *
+from states import *
 
 from models.user import User
 from models.access_request import AccessRequest
 
-async def request_access(update: Update, context: CallbackContext) -> None:
+async def request_access(update: Update, context: CallbackContext) -> int:
     query = update.callback_query
     telegram_user = update.effective_user
 
@@ -27,7 +28,7 @@ async def request_access(update: Update, context: CallbackContext) -> None:
         if access_request:
             await query.edit_message_text(text=get_translation(language_code, 'access.request_waiting'))
         else:
-            new_access_request = AccessRequest.create(
+            AccessRequest.create(
                 session=session,
                 is_approved=False,
                 is_active=True,
@@ -36,7 +37,9 @@ async def request_access(update: Update, context: CallbackContext) -> None:
 
             await query.edit_message_text(text=get_translation(language_code, 'access.request_submitted'))
 
-async def cancel_request_access(update: Update, context: CallbackContext) -> None:
+    return REQUEST_ACCESS_STATE
+
+async def cancel_request_access(update: Update, context: CallbackContext) -> int:
     query = update.callback_query
     telegram_user = update.effective_user
 
@@ -58,8 +61,10 @@ async def cancel_request_access(update: Update, context: CallbackContext) -> Non
             else:
                 await query.edit_message_text(text=get_translation(language_code, 'access.request_not_found'))
 
+    return ConversationHandler.END
+
 @admin_required
-async def approve_access(update: Update, context: CallbackContext) -> None:
+async def approve_access(update: Update, context: CallbackContext) -> int:
     telegram_user = update.effective_user
 
     with get_db_session() as session:
@@ -70,7 +75,7 @@ async def approve_access(update: Update, context: CallbackContext) -> None:
 
         if not active_requests:
             await update.message.reply_text(get_translation(language_code, 'access.admin.no_active_request'))
-            return
+            return ConversationHandler.END
         
         buttons = []
         for request in active_requests:
@@ -84,8 +89,10 @@ async def approve_access(update: Update, context: CallbackContext) -> None:
             reply_markup=InlineKeyboardMarkup(buttons)
         )
 
+    return REQUEST_ACCESS_STATE
+
 @admin_required
-async def handle_access_request(update: Update, context: CallbackContext, is_approved: bool) -> None:
+async def handle_access_request(update: Update, context: CallbackContext, is_approved: bool) -> int:
     query = update.callback_query
     telegram_user = update.effective_user
     request_id = int(query.data.split(APPROVE_ACCESS_CODE if is_approved else REJECT_ACCESS_CODE)[1])
@@ -120,8 +127,10 @@ async def handle_access_request(update: Update, context: CallbackContext, is_app
         else:
             await query.edit_message_text(text=get_translation(language_code, 'access.request_not_found'))
 
-async def approve_access_callback(update: Update, context: CallbackContext) -> None:
+    return ConversationHandler.END
+
+async def approve_access_callback(update: Update, context: CallbackContext) -> int:
     await handle_access_request(update, context, is_approved=True)
 
-async def reject_access_callback(update: Update, context: CallbackContext) -> None:
+async def reject_access_callback(update: Update, context: CallbackContext) -> int:
     await handle_access_request(update, context, is_approved=False)
