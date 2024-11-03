@@ -24,6 +24,18 @@ async def start(update: Update, context: CallbackContext) -> int:
 
     return START_STATE
 
+async def help(update: Update, context: CallbackContext) -> int:
+    telegram_user = update.effective_user
+
+    with get_db_session() as session:
+        user = User.get_by_telegram_id(telegram_user.id, session)
+
+        language_code = user.get_language_code() if user else User.get_default_language_code()
+
+        await update.message.reply_text(get_translation(language_code, 'user.help'))
+
+    return ConversationHandler.END
+
 async def cancel(update: Update, context: CallbackContext) -> int:
     query = update.callback_query
 

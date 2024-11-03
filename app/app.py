@@ -9,7 +9,7 @@ from translations import configure_i18n
 from constants import *
 from states import *
 
-from handlers.user_handler import start, cancel, change_language, change_language_callback
+from handlers.user_handler import start, help, cancel, change_language, change_language_callback
 from handlers.access_handler import request_access, cancel_request_access, approve_access, \
     approve_access_callback, reject_access_callback
 from handlers.word_block_controller import add_block, add_block_callback, learn_block, \
@@ -34,12 +34,13 @@ def main():
     application.add_handler(ConversationHandler(
         entry_points=[
             CommandHandler('start', start),
+            CommandHandler('help', help),
             CommandHandler('change_language', change_language),
             CommandHandler('approve_access', approve_access),
             CommandHandler('add_block', add_block),
             CommandHandler('learn_block', learn_block),
             CommandHandler('review_block', review_block),
-            CommandHandler('delete_block', delete_block),
+            CommandHandler('delete_block', delete_block)
         ],
         states={
             CHANGE_LANGUAGE_STATE: [

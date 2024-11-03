@@ -1,59 +1,60 @@
 {
     "access": {
-        "request_access": "You do not have access to this bot. Would you like to request access?",
-        "request_waiting": "Your access request is waiting for approval",
-        "request_submitted": "Your access request has been submitted and is awaiting approval",
-        "request_canceled": "Your access request has been canceled",
-        "request_approved": "Your access request has been approved",
-        "request_rejected": "Your access request has been rejected",
-        "request_not_found": "Access request not found",
+        "request_access": "🔒 You don’t have access to this bot. Would you like to request it?",
+        "request_waiting": "⏳ Your access request is pending approval",
+        "request_submitted": "✅ Access request sent. Waiting for approval",
+        "request_canceled": "❌ Access request canceled",
+        "request_approved": "🎉 Access granted!",
+        "request_rejected": "🚫 Access request rejected",
+        "request_not_found": "⚠️ Access request not found",
         "admin": {
-            "active_request": "Active access requests:",
-            "no_active_request": "No active access requests",
-            "request_approved": "Access request to «%{username}» approved",
-            "request_rejected": "Access request to «%{username}» rejected",
-            "no_permission": "You do not have permission to perform this action"
+            "active_request": "Pending access requests:",
+            "no_active_request": "No pending access requests",
+            "request_approved": "✅ Access granted to «%{username}»",
+            "request_rejected": "🚫 Access denied to «%{username}»",
+            "no_permission": "⚠️ You don’t have permission for this action"
         }
     },
     "user": {
-        "start": "Welcome to the bot!",
-        "select_language": "Select your language:",
-        "language_changed": "Your language has been changed to «%{language_name}»",
-        "language_not_found": "Selected language is not supported"
+        "start": "👋 Welcome. Let’s get started",
+        "help": "Here are your commands:\n• /start — start the bot\n• /help — show this help\n• /add_block — add a word block\n• /delete_block — delete a word block\n• /learn_block — study a word block\n• /change_language — change language\n• /approve_access — approve access",
+        "select_language": "Choose your language:",
+        "language_changed": "🌐 Language changed to «%{language_name}»",
+        "language_not_found": "⚠️ Selected language is not available"
     },
     "word_block": {
         "add": {
-            "rules": "To add a block of words, please use the following format:\n_Title_\n_word1\\-translate1_\n_word2\\-translate2_\nFor example:\n_Fruits_\n_apple\\-яблоко_\n_orange\\-апельсин_\n_banana\\-банан_",
-            "success": "The word block «%{title}» has been added successfully",
-            "error": "There were errors in the following lines:\n%{errors}\nPlease check the format and try again",
-            "exists": "The word block «%{title}» already exists\nPlease change the title and try again"
+            "rules": "To add a word block, format it like this:\n\nTitle\n_word1 — translation1_\n_word2 — translation2_\n\nExample:\nFruits\n_apple — яблоко_\n_orange — апельсин_",
+            "success": "📦 Word block «%{title}» added!",
+            "error": "⚠️ Check these lines for errors:\n%{errors}",
+            "exists": "⚠️ The word block «%{title}» already exists. Try another title"
         },
         "learn": {
-            "no_blocks": "You have no word blocks available\nUse the /add_block command to create a new word block",
-            "select_block": "Select a word block to learn:\n",
-            "list_words": "«%{title}»:\n\n%{words}",
-            "no_words": "The block «%{title}» has no words"
+            "no_blocks": "⚠️ You don’t have any word blocks yet",
+            "select_block": "📝 Choose a block to study:",
+            "list_words": "📖 Learning «%{title}»:\n\n%{words}",
+            "no_words": "⚠️ The block «%{title}» has no words"
         },
         "review": {
-            "no_blocks": "You have no word blocks available\nUse the /add_block command to create a new word block for review",
-            "select_block": "Select a word block to review:\n",
-            "list_words": "«%{title}»:",
-            "no_words": "The block «%{title}» has no words"
+            "no_blocks": "⚠️ You don’t have any word blocks to review",
+            "select_block": "📝 Choose a block to review:",
+            "list_words": "🔍 Reviewing «%{title}»:",
+            "no_words": "⚠️ The block «%{title}» has no words"
         },
         "delete": {
-            "no_blocks": "You have no word blocks available",
-            "select_block": "Select a word block to delete:\n",
-            "success": "The word block «%{title}» has been deleted successfully"
+            "no_blocks": "⚠️ You don’t have any word blocks to delete",
+            "select_block": "🗑️ Choose a block to delete:",
+            "success": "✅ Word block «%{title}» deleted!"
         }
     },
     "buttons": {
-        "request_access": "Request access",
-        "cancel_request_access": "Cancel request access",
-        "approve_access": "Approve «%{username}»",
-        "reject_access": "Reject «%{username}»",
-        "cancel": "Cancel"
+        "request_access": "🔑 Request access",
+        "cancel_request_access": "❌ Cancel request",
+        "approve_access": "✅ Approve «%{username}»",
+        "reject_access": "🚫 Reject «%{username}»",
+        "cancel": "❌ Cancel"
     },
     "error": {
-        "unexpected": "Unexpected error"
+        "unexpected": "⚠️ An unexpected error occurred"
     }
 }
